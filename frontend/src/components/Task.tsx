@@ -2,14 +2,15 @@ import { useState } from 'react'
 import checked from '../assets/checked.svg'
 import unchecked from '../assets/unchecked.svg'
 
-type Props = {
+export interface ITask {
     id: number,
     description: string,
     priority: number,
 }
 
-const Task = ({ id, description, priority }: Props) => {
+const Task = ({ id, description, priority }: ITask) => {
     const [isComplete, setIsComplete] = useState(false)
+
     const priorityColor: Record<number, string> = {
         1: "bg-blue-200",
         2: "bg-blue-300",

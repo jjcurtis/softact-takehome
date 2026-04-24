@@ -1,17 +1,29 @@
+import { useEffect, useState } from 'react'
 import './App.css'
-import Task from './components/Task'
+import Task, { type ITask } from './components/Task'
 import TaskForm from './components/TaskForm'
 import TaskGrid from './components/TaskGrid'
 
 function App() {
+    async function getTasks() {
+        const tasks = await fetch("http://localhost:3000/api/tasks")
+        const data: ITask[] = await tasks.json()
+        setTasks([...data])
+    }
 
+    useEffect(() => {
+        getTasks()
+    }, [])
+
+    const [tasks, setTasks] = useState<ITask[]>([])
     return (
         <>
             <TaskGrid>
-                <Task id={1} description={'First Task'} priority={10} />
-                <Task id={2} description={'Second Task'} priority={10} />
-                <Task id={3} description={'Third Task'} priority={10} />
-                <Task id={4} description={'Fourth Task'} priority={10} />
+                {
+                    tasks.map((task, index) =>
+                        <Task key={index} id={task.id} description={task.description} priority={task.priority} />
+                    )
+                }
             </TaskGrid>
             <TaskForm />
         </>
