@@ -8,26 +8,65 @@ interface ITask {
 
 const tasks = Router();
 
-tasks.get("/", (req: Request, res: Response) => {
-    const allTasks: ITask[] = [
-        {
-            id: 1,
-            description: "Task One",
-            priority: 8
-        },
-        {
-            id: 2,
-            description: "Task Two",
-            priority: 3
-        },
-        {
-            id: 3,
-            description: "Task Three",
-            priority: 6
-        },
-    ]
+let id = 0;
 
-    res.json(allTasks)
+function incrementId(): number {
+    id += 1
+    return id
+}
+
+let inMemoryTaskRepository: ITask[] = [
+    {
+        id: incrementId(),
+        description: "Task One",
+        priority: 8
+    },
+    {
+        id: incrementId(),
+        description: "Task Two",
+        priority: 3
+    },
+    {
+        id: incrementId(),
+        description: "Task Three",
+        priority: 6
+    },
+]
+
+tasks.get("/", (req: Request, res: Response) => {
+    return res.json(inMemoryTaskRepository)
+})
+
+tasks.post("/", (req: Request, res: Response) => {
+    inMemoryTaskRepository.push({
+        id: incrementId(),
+        description: req.body.description,
+        priority: req.body.priority
+    })
+    return res.status(201)
+})
+
+tasks.delete("/:id", (req: Request, res: Response) => {
+    const target = inMemoryTaskRepository.findIndex((task) => task.id === Number(req.params.id))
+
+    if (target === 0) { inMemoryTaskRepository.shift() }
+
+    if (target) {
+        inMemoryTaskRepository.splice(target, 1);
+        return res.status(204)
+    }
+})
+
+tasks.put("/:id", (req: Request, res: Response) => {
+    const target = inMemoryTaskRepository.findIndex((task) => task.id === Number(req.params.id))
+
+    inMemoryTaskRepository = inMemoryTaskRepository.with(target, {
+        id: Number(req.params.id),
+        description: req.body.description,
+        priority: req.body.priority
+    })
+
+    return res.status(200)
 })
 
 export default tasks
