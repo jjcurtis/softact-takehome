@@ -1,8 +1,12 @@
+# SoftAct Take-Home Project
+
 Thank you for taking the time to review this take-home project. I look forward to discussing your thoughts on my work.
 
 As instructed, I have chosen to store the task items in an **in-memory array** on the backend. Therefore, any changes made to the tasks will only persist **as long as the server container is running**.
 
 To simplify the build process, I have containerized the entire application using **Docker**. Instructions are provided below for installing and verifying Docker (and Docker Compose) on your local machine, if they are not already installed.
+
+## Option 1 - Docker Compose
 
 Once you have Docker and Docker Compose set up and verified on your
 machine, there are only 3 steps to building and running the project:
@@ -20,9 +24,37 @@ docker compose up -d
 ```
 
 3. Once the Docker build process has finished, open a web browser and
-   navigate to (http://localhost:5173) 
+   navigate to [http://localhost:5173](http://localhost:5173) 
 
 ---
+
+## Option 2 - Run the project manually
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/jjcurtis/softact-takehome.git
+```
+
+### Start the server
+
+2. Navigate to the project root directory in a terminal and run the
+   following command
+```bash
+cd backend;
+npm i;
+npm run dev
+```
+
+### Start the client
+
+4. In seperate terminal instance, navigate to the project root directory and run the
+   following command
+```bash
+cd frontend;
+npm i;
+npm run dev
+```
 
 # Complete Guide to Installing Docker and Docker Compose
 
@@ -32,7 +64,7 @@ This guide provides step-by-step instructions for installing **Docker** and **Do
 
 ## Table of Contents
 
-- [Linux](#linux)
+- [Linux](#ubuntu-linux)
 - [macOS](#macos)
 - [Windows](#windows)
 - [Verify Installation](#verify-installation)
