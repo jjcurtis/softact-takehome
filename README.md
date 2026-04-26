@@ -48,13 +48,16 @@ npm run dev
 
 ### Start the client
 
-4. In seperate terminal instance, navigate to the project root directory and run the
+3. In seperate terminal instance, navigate to the project root directory and run the
    following command
 ```bash
 cd frontend;
 npm i;
 npm run dev
 ```
+
+4. Open a web browser and
+   navigate to [http://localhost:5173](http://localhost:5173) 
 
 # Complete Guide to Installing Docker and Docker Compose
 
