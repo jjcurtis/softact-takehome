@@ -4,6 +4,7 @@ interface ITask {
     id: number,
     description: string,
     priority: number,
+    isComplete: boolean
 }
 
 const tasks = Router();
@@ -19,17 +20,20 @@ let inMemoryTaskRepository: ITask[] = [
     {
         id: incrementId(),
         description: "Task One",
-        priority: 8
+        priority: 8,
+        isComplete: false
     },
     {
         id: incrementId(),
         description: "Task Two",
-        priority: 3
+        priority: 3,
+        isComplete: false
     },
     {
         id: incrementId(),
         description: "Task Three",
-        priority: 6
+        priority: 6,
+        isComplete: true
     },
 ]
 
@@ -41,7 +45,8 @@ tasks.post("/", (req: Request, res: Response) => {
     inMemoryTaskRepository.push({
         id: incrementId(),
         description: req.body.description,
-        priority: req.body.priority
+        priority: req.body.priority,
+        isComplete: false
     })
     return res.status(201)
 })
@@ -63,7 +68,8 @@ tasks.put("/:id", (req: Request, res: Response) => {
     inMemoryTaskRepository = inMemoryTaskRepository.with(target, {
         id: Number(req.params.id),
         description: req.body.description,
-        priority: req.body.priority
+        priority: req.body.priority,
+        isComplete: req.body.isComplete
     })
 
     return res.status(200)

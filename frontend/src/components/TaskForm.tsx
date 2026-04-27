@@ -19,7 +19,7 @@ const TaskForm = ({ setTasks }: Props) => {
                 "priority": Number(priority)
             }),
         })
-        setTasks(previous => [...previous, { id: 0, description: description, priority: Number(priority) }])
+        setTasks(previous => [...previous, { id: 0, description: description, priority: Number(priority), isComplete: false }])
         setPriority("1")
         setDescription("")
     }

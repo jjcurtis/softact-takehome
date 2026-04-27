@@ -8,6 +8,7 @@ export interface ITask {
     id: number,
     description: string,
     priority: number,
+    isComplete: boolean
 }
 
 type Props = {
@@ -15,9 +16,10 @@ type Props = {
     description: string,
     priority: number,
     setTasks: Dispatch<SetStateAction<ITask[]>>
+    complete: boolean
 }
-const Task = ({ id, description, priority, setTasks }: Props) => {
-    const [isComplete, setIsComplete] = useState(false)
+const Task = ({ id, description, priority, setTasks, complete }: Props) => {
+    const [isComplete, setIsComplete] = useState(complete)
     const [newDescription, setNewDescription] = useState(description)
     const [updatingTask, setUpdatingTask] = useState(false)
 
@@ -39,7 +41,14 @@ const Task = ({ id, description, priority, setTasks }: Props) => {
         'notUpdating': 'cursor-pointer px-1 rounded-sm'
     } as const
 
-    function toggleComplete() { setIsComplete(!isComplete) }
+    function toggleComplete() {
+        setIsComplete(!isComplete)
+        fetch(`http://localhost:3000/api/tasks/${id}`, {
+            method: 'PUT',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ "id": id, "description": newDescription, "priority": Number(priority), isComplete: !isComplete })
+        })
+    }
 
     function deleteTask(id: number): void {
         fetch(`http://localhost:3000/api/tasks/${id}`, { method: 'DELETE' })
@@ -54,14 +63,16 @@ const Task = ({ id, description, priority, setTasks }: Props) => {
             setTasks(previous =>
                 [...previous
                     .with(previous.findIndex(task => task.id === id),
-                        { id: id, description: newDescription, priority: priority })]
+                        { id: id, description: newDescription, priority: priority, isComplete: isComplete })]
             )
-            fetch(`http://localhost:3000/api/tasks/${id}`, {
-                method: 'PUT',
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ "id": id, "description": newDescription, "priority": Number(priority) })
-            })
+
         }
+
+        fetch(`http://localhost:3000/api/tasks/${id}`, {
+            method: 'PUT',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ "id": id, "description": newDescription, "priority": Number(priority), isComplete: isComplete })
+        })
 
     }
 

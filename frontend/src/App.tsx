@@ -22,7 +22,7 @@ function App() {
             <TaskGrid>
                 {
                     tasks.map((task, index) =>
-                        <Task key={index} id={task.id} description={task.description} priority={task.priority} setTasks={setTasks} />
+                        <Task key={index} id={task.id} description={task.description} priority={task.priority} complete={task.isComplete} setTasks={setTasks} />
                     )
                 }
             </TaskGrid>
